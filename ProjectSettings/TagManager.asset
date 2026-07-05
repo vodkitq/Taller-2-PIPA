@@ -8,6 +8,7 @@ TagManager:
   - Obstaculo
   - Moneda
   - Enemigo
+  - Jugador
   layers:
   - Default
   - TransparentFX

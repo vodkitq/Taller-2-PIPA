@@ -3,7 +3,7 @@ using UnityEngine;
 public class SeguirJugador : MonoBehaviour
 {
     [Header("Objetivo")]
-    public Transform jugador; // Arrastraremos a tu personaje aquí
+    public Transform jugador;
     
     [Header("Distancia de la cámara")]
     // X=0 (centrado), Y=3 (altura), Z=-6 (atrás del jugador)

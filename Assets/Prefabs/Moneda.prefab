@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7486778354869016582}
   - component: {fileID: 994125434058236175}
   - component: {fileID: 8864071764488251392}
+  - component: {fileID: 7598666955089774146}
   m_Layer: 0
   m_Name: Moneda
   m_TagString: Moneda
@@ -27,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8913393287143971822}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.8311367, y: 1, z: -1.2808404}
-  m_LocalScale: {x: 0.5, y: 0.05, z: 0.5}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -2.8311367, y: 2.54, z: -1.2808404}
+  m_LocalScale: {x: 0.1, y: 0.01, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!33 &7486778354869016582
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -105,3 +106,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.0000002
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
+--- !u!114 &7598666955089774146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8913393287143971822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19dc873f66e7b2446a35dd6f352058dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocidadRotacion: 100
+  valorMoneda: 1
+  sonidoRecoleccion: {fileID: 8300000, guid: dcafc8d0925bccf43a7c6419863331ec, type: 3}

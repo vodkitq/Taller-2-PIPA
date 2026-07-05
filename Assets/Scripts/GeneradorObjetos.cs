@@ -3,7 +3,7 @@ using UnityEngine;
 public class GeneradorObjetos : MonoBehaviour
 {
     [Header("Puntos de Aparición")]
-    public GameObject puntoIzq; // Ahora pide GameObjects directamente
+    public GameObject puntoIzq;
     public GameObject puntoCen;
     public GameObject puntoDer;
 
@@ -37,7 +37,11 @@ public class GeneradorObjetos : MonoBehaviour
         }
         else if (probabilidad == 2 && moneda != null)
         {
-            Instantiate(moneda, punto.transform.position, punto.transform.rotation, transform);
+            // Creamos un vector que sube la moneda 0.5 unidades en el eje Y
+            Vector3 alturaExtra = new Vector3(0f, 0.3f, 0f); // Ajusta el 0.5f si necesitas más o menos altura
+
+            // Se lo sumamos a punto.transform.position
+            Instantiate(moneda, punto.transform.position + alturaExtra, moneda.transform.rotation, transform);
         }
         else if (probabilidad == 3 && zombie != null)
         {

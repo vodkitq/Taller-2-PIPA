@@ -12,9 +12,21 @@ public class Jugador : MonoBehaviour
     public GameObject prefabBala;
     public Transform puntoDisparo;
 
+    [Header("Configuración de Disparo")]
+    [Tooltip("Tiempo mínimo en segundos entre cada disparo")]
+    public float cadenciaDisparo = 0.5f;
+    
+    // Variable interna para saber en qué segundo exacto podremos volver a disparar
+    private float proximoDisparo = 0f;
+
     private int carrilActual = 1; 
     private Rigidbody rb;
     private bool enElSuelo = true;
+
+    [Header("Efectos de Sonido")]
+    public AudioSource audioSourceJugador;
+    public AudioClip sonidoSalto;
+    public AudioClip sonidoDisparo;
 
     void Start()
     {
@@ -38,7 +50,7 @@ public class Jugador : MonoBehaviour
             if (carrilActual < 0) carrilActual = 0; 
         }
 
-        // Movimiento suave (Lerp)
+        // Movimiento suave
         float posicionXDeseada = 0;
         if (carrilActual == 0) posicionXDeseada = -distanciaCarril;
         else if (carrilActual == 1) posicionXDeseada = 0;
@@ -54,9 +66,14 @@ public class Jugador : MonoBehaviour
         }
 
         // 4. DISPARO (Tecla F)
-        if (Input.GetKeyDown(KeyCode.F))
+        // Verificamos si presiona F Y ADEMÁS si el tiempo actual del juego ya superó al tiempo de recarga
+        if (Input.GetKeyDown(KeyCode.F) && Time.time >= proximoDisparo)
         {
-            Disparar();
+            // Calculamos cuándo será el próximo disparo permitido (tiempo actual + 0.5 segundos)
+            proximoDisparo = Time.time + cadenciaDisparo;
+            
+            // Llamamos al método que crea la bala y hace el sonido
+            Disparar(); 
         }
     }
 
@@ -64,7 +81,12 @@ public class Jugador : MonoBehaviour
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
-        enElSuelo = false; 
+        enElSuelo = false;
+
+        if (audioSourceJugador != null && sonidoSalto != null)
+    {
+        audioSourceJugador.PlayOneShot(sonidoSalto); // PlayOneShot permite reproducir sonidos superpuestos
+    }
     }
 
     void Disparar()
@@ -74,19 +96,26 @@ public class Jugador : MonoBehaviour
         {
             Instantiate(prefabBala, puntoDisparo.position, puntoDisparo.rotation);
         }
+
+        if (audioSourceJugador != null && sonidoDisparo != null)
+    {
+        audioSourceJugador.PlayOneShot(sonidoDisparo);
+    }
     }
 
     private void OnCollisionEnter(Collision collision)
-{
-    // Si toca suelo, puede saltar
-    if (collision.gameObject.CompareTag("Suelo"))
     {
-        enElSuelo = true;
+        // Si toca suelo, puede saltar
+        if (collision.gameObject.CompareTag("Suelo"))
+        {
+            enElSuelo = true;
+        }
+
+        // Si toca Obstaculo o Enemigo, activamos el Game Over
+        if (collision.gameObject.CompareTag("Obstaculo") || collision.gameObject.CompareTag("Enemigo"))
+        {
+            // Llamamos al GameManager en lugar de reiniciar directamente
+            GameManager.Instance.GameOver();
+        }
     }
-    // Si toca Obstaculo o Enemigo, reinicia el juego
-    if (collision.gameObject.CompareTag("Obstaculo") || collision.gameObject.CompareTag("Enemigo"))
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
-}
 }
